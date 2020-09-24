@@ -1,6 +1,6 @@
 if (!require(pacman)) install.packages("pacman")
 pacman::p_load("tidyverse", "lubridate", "forecast", "hrbrthemes",
-               "patchwork")
+               "patchwork", "imputeTS")
 load("tidy_data.RData")
 
 set.seed(2020)
@@ -31,6 +31,20 @@ p_c <- ggplot(recent_tidy_data, aes(x=time, y=c_num)) +
   # limit=c(as_date("2020-01-01"),as_date("2020-09-30"))) +
   ylim(0, max(tidy_data$c_num) + 10)
 
+# interpolation
+p_c2 <- ggplot(tidy_data_impute, aes(x=time, y=c_num)) +
+  geom_line(color="seagreen4") +
+  geom_point(alpha=0.8, size=0.5) +
+  xlab("") +
+  ylab("Number of comments") +
+  ggtitle("Time series of daily new comments in 2020", 
+          subtitle = "With missing data interpolated linearly") +
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(angle=30, hjust=1)) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 month") +
+  # limit=c(as_date("2020-01-01"),as_date("2020-09-30"))) +
+  ylim(0, max(tidy_data_impute$c_num) + 10)
+
 p_s <- ggplot(tidy_data, aes(x=time, y=score)) +
   geom_line(color="coral") +
   geom_point(alpha=0.8, size=0.5) +
@@ -43,7 +57,8 @@ p_s <- ggplot(tidy_data, aes(x=time, y=score)) +
   # limit=c(as_date("2020-01-01"),as_date("2020-09-30"))) +
   ylim(0, max(tidy_data$score) + 50)
 
-p_a / p_s / p_c
+p_a / p_s
+p_c / p_c2
 
 # --------------------------------------------------------------------
 # do time series analysis on:
@@ -72,12 +87,17 @@ fit_score_arima <- auto.arima(tidy_data$score)
 summary(fit_score_arima)
 forecast(fit_score_arima, h=2)
 
-# Comment number (TBATS)
-fit_cnum_tbats <- tbats(recent_tidy_data$c_num)
-summary(fit_cnum_tbats)
-forecast(fit_cnum_tbats, h=2)
+# # Comment number (TBATS)
+# fit_cnum_tbats <- tbats(tidy_data_impute$c_num)
+# summary(fit_cnum_tbats)
+# forecast(fit_cnum_tbats, h=2)
 
-# conlusion
+# Comment number (ARIMA)
+fit_cnum_arima <- arima(tidy_data_impute$c_num)
+summary(fit_cnum_arima)
+forecast(fit_cnum_arima, h=2)
+
+# conclusion
 pred_anum <- 93 # 93 new articles on 2020-09-25
 pred_score <- 1139 # 1139 new top score on 2020-09-25
-pred_cnum <- 1641 # 1641 new comments on 2020-09-25
+pred_cnum <- 1235 # 1641 new comments on 2020-09-25

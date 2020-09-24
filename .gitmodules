@@ -1,0 +1,3 @@
+[submodule "data/hackathon"]
+	path = data/hackathon
+	url = https://github.com/WhyR2020/hackathon.git

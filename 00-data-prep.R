@@ -13,7 +13,7 @@ tidy_articles <- tibble(
   by = unlist(articles$by),
   descendants = unlist(articles$descendants),
   id = unlist(articles$id),
-  # comment_count <- lengths(articles$kids),
+  # comment_count = lengths(articles$kids),
   kids = articles$kids,
   score = unlist(articles$score),
   time = unlist(articles$time),

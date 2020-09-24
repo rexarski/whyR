@@ -23,6 +23,12 @@
 
 ![img1](EDA_01.png)
 ![img1](EDA_02.png)
+
+# Data Updating Procedure
+
+- [ ] need to manually update contents
+- [ ] need to update data in submodule `git submodule update --remote --merge`
+
 # Challenge 1 - "Warm up predictions"
 
 i didn't do too much on model comparison. especially for the number of comments since the **given** data are missing a lot before August 14.
@@ -35,11 +41,5 @@ pred_score <- 1139
 pred_cnum <- 1235
 ```
 
-# Challenge 2 - "Segmentation"
-
-
-# update
-
-- [ ] need to manually update contents
-- [ ] need to update data in submodule `git submodule update --remote --merge`
+# Challenge 4
 

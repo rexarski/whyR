@@ -10,6 +10,4 @@
 #   mutate(time = parse_datetime(time)) %>%
 #   drop_na() %>%
 #   select(by, text, time)
-# 
-# sentimental_score <- comments$text %>%
 #   
